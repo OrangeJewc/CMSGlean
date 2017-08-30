@@ -75,6 +75,14 @@ body {
   border-radius: 5px;
 }
 
+.userContainer {
+  background-color: #ddd;
+  width: 50%;
+  height: 200px;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
 .imgCircle {
   display: block;
   /*background-color: #f5f5f5;*/

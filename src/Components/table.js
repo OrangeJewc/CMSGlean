@@ -61,7 +61,7 @@ export default class Table extends Component {
       if(res.data.success)
         window.location.reload();
     }).catch((err) => {
-      console.log(err);
+      alert('Insufficient privilege');
     });
   }
 
@@ -69,7 +69,7 @@ export default class Table extends Component {
     return (
       <tbody>
         {this.state.data.map((entry, idx) => {
-          console.log(entry);
+          {/*console.log(entry);*/}
           let upperBound = idx < (this.state.entriesPerPage * this.state.currentPage);
           let lowerBound = idx >= (this.state.entriesPerPage * (this.state.currentPage-1));
           if (upperBound && lowerBound) {

@@ -4,10 +4,12 @@ import Moment from 'moment';
 import DatePicker from 'react-datepicker';
 import Axios from 'axios';
 import ReactImageFallback from 'react-image-fallback';
+import { Link } from 'react-router-dom';
 
 import 'react-datepicker/src/stylesheets/datepicker-cssmodules.scss';
 
 import Welcome from './welcome';
+import User from './user';
 
 const loader = (
   <div className="sk2-cube-grid">
@@ -48,8 +50,9 @@ export default class EditEntry extends Component {
     };
 
     Axios(auth).then((res) => {
-      if(res.data.success)
+      if(res.data.success) {
         this.setState({ entry: res.data.data });
+      }
     }).catch((err) => {
       console.log(err);
     });
@@ -73,23 +76,33 @@ export default class EditEntry extends Component {
   }
 
   loadOwner() {
-    let id = this.state.entry.owner.id;
+    console.log(this.state.entry);
+    if(this.state.entry.owner == null) {
+      this.setState({ owner: {
+        contact: {
+          first_name: 'No',
+          last_name: 'owner'
+        }
+      }})
+    } else {
+      let id = this.state.entry.owner.id;
 
-    let auth = {
-      method: 'GET',
-      url: `http://165.227.29.52/api/users/${id}`,
-      headers: {
-        'x-auth-token' : window.localStorage.getItem('token')
-      }
-    };
+      let auth = {
+        method: 'GET',
+        url: `http://165.227.29.52/api/users/${id}`,
+        headers: {
+          'x-auth-token' : window.localStorage.getItem('token')
+        }
+      };
 
-    Axios(auth).then((res) => {
-      if(res.data.success) {
-        this.setState({ owner: res.data.data });
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+      Axios(auth).then((res) => {
+        if(res.data.success) {
+          this.setState({ owner: res.data.data });
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   openDatePicker(type, startDate) {
@@ -211,8 +224,9 @@ export default class EditEntry extends Component {
 
         <div className='entryField'>
           <label className='label'>Owner: </label>
-          {this.state.owner == null ? loader && this.loadOwner() : <a className='owner'>{[this.state.owner.contact.first_name, this.state.owner.contact.last_name].join(' ')}</a>}
-        </div>           
+          {/*<a className='owner'>{[this.state.owner.contact.first_name, this.state.owner.contact.last_name].join(' ')}</a>*/}
+          {this.state.owner == null ? loader && this.loadOwner() : <Link to={`/user/${this.state.owner.id}`} className='owner'>{[this.state.owner.contact.first_name, this.state.owner.contact.last_name].join(' ')}</Link>}
+        </div>
       </div>
     );
   }

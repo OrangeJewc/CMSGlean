@@ -15,7 +15,7 @@ export default class Login extends Component {
   login() {
     let auth = {
       method: 'POST',
-      url: '165.227.29.52/api/auth',
+      url: 'http://165.227.29.52/api/auth',
       data: {
         email: this.state.email,
         password: this.state.password
@@ -33,7 +33,7 @@ export default class Login extends Component {
         this.props.history.push('/home');
       }
     }).catch((err) => {
-      console.log(err);
+      alert('Incorrect email/password!');
     });
   }
 
